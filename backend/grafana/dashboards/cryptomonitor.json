@@ -1,0 +1,446 @@
+{
+  "uid": "cryptomonitor",
+  "title": "CryptoMonitor Stream",
+  "refresh": "5s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "schemaVersion": 39,
+  "tags": [
+    "crypto"
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Anomalies \u00b7 10 min",
+      "type": "stat",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM anomalies WHERE detected_at > now() - interval '10 minutes'"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Anomalies \u00b7 1 hour",
+      "type": "stat",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM anomalies WHERE detected_at > now() - interval '1 hour'"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Anomalies \u00b7 24 h",
+      "type": "stat",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM anomalies WHERE detected_at > now() - interval '1 day'"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "By signal type \u00b7 24 h",
+      "type": "piechart",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT signal_type AS metric, count(*) AS value FROM anomalies WHERE detected_at > now() - interval '1 day' GROUP BY 1"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": true,
+          "calcs": []
+        },
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "values": [
+            "value"
+          ]
+        },
+        "orientation": "horizontal",
+        "displayMode": "gradient"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "VWAP vs last price (normalized, %)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 18,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "time_series",
+          "rawSql": "SELECT ts AS time, symbol AS metric, (vwap / first_value(vwap) OVER (PARTITION BY symbol ORDER BY ts) - 1) * 100 AS value FROM market_metrics WHERE $__timeFilter(ts) ORDER BY ts"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Current volatility by asset (%)",
+      "type": "bargauge",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 8,
+        "w": 6,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT symbol AS metric, avg(volatility_pct) AS value FROM market_metrics WHERE ts > now() - interval '5 minutes' GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": true,
+          "calcs": []
+        },
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "values": [
+            "value"
+          ]
+        },
+        "orientation": "horizontal",
+        "displayMode": "gradient"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 3
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Volume deviation from baseline (%)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 18,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "time_series",
+          "rawSql": "SELECT ts AS time, symbol AS metric, volume_dev_pct AS value FROM market_metrics WHERE $__timeFilter(ts) ORDER BY ts"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Anomalies per minute",
+      "type": "timeseries",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 20,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "time_series",
+          "rawSql": "SELECT date_trunc('minute', detected_at) AS time, signal_type AS metric, count(*) AS value FROM anomalies WHERE $__timeFilter(detected_at) GROUP BY 1,2 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "stacking": {
+              "mode": "normal"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "Asset summary \u00b7 1 h",
+      "type": "table",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 20,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT symbol, round((sum(vwap*volume_usd)/NULLIF(sum(volume_usd),0))::numeric, 4) AS vwap_1h, round(avg(volatility_pct)::numeric,4) AS volatility_pct, round(sum(volume_usd)::numeric,0) AS volume_usd, round(avg(volume_dev_pct)::numeric,1) AS volume_dev_pct FROM market_metrics WHERE ts > now() - interval '1 hour' GROUP BY symbol ORDER BY volume_usd DESC"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Latest critical incidents (live)",
+      "type": "table",
+      "datasource": {
+        "type": "postgres",
+        "uid": "pg-crypto"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "pg-crypto"
+          },
+          "rawQuery": true,
+          "editorMode": "code",
+          "format": "table",
+          "rawSql": "SELECT detected_at AS time, symbol, signal_type, severity, round(total_usd::numeric,0) AS usd, message, notify_status FROM anomalies ORDER BY detected_at DESC LIMIT 50"
+        }
+      ]
+    }
+  ]
+}

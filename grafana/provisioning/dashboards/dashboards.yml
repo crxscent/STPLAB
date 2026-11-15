@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: CryptoMonitor
+    folder: CryptoMonitor
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
