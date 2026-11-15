@@ -10,6 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import HomeScreen from './src/screens/HomeScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import FavoritesScreen from './src/screens/FavoritesScreen';
+import AlertsScreen from './src/screens/AlertsScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import { FavoritesProvider } from './src/context/FavoritesContext';
 import { colors } from './src/theme/colors';
@@ -26,6 +27,7 @@ const linking = {
           Top: 'top',
           Search: 'search',
           Favorites: 'favorites',
+          Alerts: 'alerts',
         },
       },
       Detail: 'coin/:id',
@@ -64,6 +66,7 @@ function MainTabs() {
           if (route.name === 'Top') icon = 'trending-up';
           if (route.name === 'Search') icon = 'search';
           if (route.name === 'Favorites') icon = 'star';
+          if (route.name === 'Alerts') icon = 'warning';
           return <Ionicons name={icon} size={size} color={color} />;
         },
       })}
@@ -71,6 +74,7 @@ function MainTabs() {
       <Tab.Screen name="Top" component={HomeScreen} options={{ title: 'Топ-20' }} />
       <Tab.Screen name="Search" component={SearchScreen} options={{ title: 'Пошук' }} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ title: 'Обране' }} />
+      <Tab.Screen name="Alerts" component={AlertsScreen} options={{ title: 'Аномалії' }} />
     </Tab.Navigator>
   );
 }
