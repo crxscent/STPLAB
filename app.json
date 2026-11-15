@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "CryptoMonitor",
+    "slug": "crypto-monitor",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#0B1020"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bobal.cryptomonitor"
+    },
+    "android": {
+      "package": "com.bobal.cryptomonitor",
+      "adaptiveIcon": {
+        "backgroundColor": "#0B1020"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": []
+  }
+}
