@@ -1,0 +1,4 @@
+asyncpg==0.29.0
+motor==3.5.1
+pymongo==4.8.0
+websockets==12.0
